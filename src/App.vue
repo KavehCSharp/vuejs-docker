@@ -15,7 +15,7 @@ export default {
   },
   data() {
     return {
-      demo: process.env.VUE_APP_DEMO,
+      demo: 'VUE_APP_DEMO',
     };
   },
 };
