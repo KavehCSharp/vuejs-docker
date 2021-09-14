@@ -1,5 +1,5 @@
 FROM node:14-alpine as ui-builder
-RUN mkdir /usr/src/app
+RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 COPY package.json /usr/src/app/package.json
@@ -13,5 +13,5 @@ RUN npm run build
 
 FROM nginx
 COPY  --from=ui-builder /usr/src/app/dist /usr/share/nginx/html
-EXPOSE 8080
+EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
