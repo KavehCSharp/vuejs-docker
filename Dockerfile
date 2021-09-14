@@ -1,13 +1,17 @@
-# build stage
-FROM node:lts-alpine as build-stage
-WORKDIR /app
-COPY package*.json ./
+FROM node:14-alpine as ui-builder
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+COPY package.json /usr/src/app/package.json
 RUN npm install
-COPY . .
+RUN npm install -g @vue/cli
+COPY . /usr/src/app
+
+ARG VUE_APP_DEMO
+ENV VUE_APP_DEMO $VUE_APP_DEMO
 RUN npm run build
 
-# production stage
-FROM nginx:stable-alpine as production-stage
-COPY --from=build-stage /app/dist /usr/share/nginx/html
-CMD ["/docker-entrypoint.sh"]
+FROM nginx
+COPY  --from=ui-builder /usr/src/app/dist /usr/share/nginx/html
+EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
