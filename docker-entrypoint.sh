@@ -4,11 +4,11 @@ ROOT_DIR=/usr/share/nginx/html
 
 echo "Replacing env constants in JS"
 
-for file in $ROOT_DIR/js/app.*.js* #$ROOT_DIR/index.html $ROOT_DIR/precache-manifest*.js;
+for file in $ROOT_DIR/js/app.*.js* $ROOT_DIR/index.html $ROOT_DIR/precache-manifest*.js;
 do
   echo "Processing $file ...";
 
-  #sed -i 's|VUE_APP_DEMO|'${VUE_APP_DEMO}'|g' $file
+  sed -i 's|VUE_APP_DEMO|'${VUE_APP_DEMO}'|g' $file
 
 done
 
